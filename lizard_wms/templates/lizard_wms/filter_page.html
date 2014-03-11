@@ -1,0 +1,46 @@
+{% extends "lizard_map/wms.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% load compress %}
+
+{% block sidebar %}
+<h2>{% trans "Available filters" %}</h2>
+<form method="get"
+      class="form-vertical"
+      autocomplete="off"
+      id="filter-page-form"
+      action=".">
+  <fieldset>
+
+    {% for dropdown in view.dropdowns %}
+      <h3>{{ dropdown.label }}</h3>
+      {% for option in dropdown.options %}
+        <label class="checkbox">
+          <input type="checkbox"
+                 name="{{ dropdown.field_name }}"
+                 value="{{ option }}"
+                 {% if option in dropdown.selected %}checked{% endif %}
+                 />
+          {{ option }}
+        </label>
+      {% endfor %}
+    {% endfor %}
+  </fieldset>
+  <div id="filter-page-spinner"
+       style="width: 34px; height: 34px;">
+    <img src="{% static 'lizard_ui/ajax-loader.gif' %}"
+         style="display: none;" />
+  </div>
+</form>
+<hr />
+<p id="filter-page-download-button">
+  <a href="{{ view.csv_download_link }}"
+     class="btn">{% trans "Download spreadsheet" %}</a>
+</p>
+{% endblock sidebar %}
+
+{% block bottom-extras %}
+  {% compress js %}
+    <script src="{{ STATIC_URL }}lizard_wms/filter_page.js"></script>
+  {% endcompress %}
+{% endblock bottom-extras %}

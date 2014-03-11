@@ -1,0 +1,33 @@
+{# Stickies screen #}
+{% extends "lizard_map/wms.html" %}
+
+{% block sidebar %}
+<div id="sticky"
+     class="sidebarbox">
+</div>
+
+<div id="sticky-browser"
+     class="sidebarbox sidebarbox-stretched">
+  <h2>Tweets bladeren</h2>
+  <ul id="sticky-browser-list" class="automatic-tree filetree">
+    <li class="workspace-acceptable file sticky-browser-item"
+        data-name="Meldingen"
+        data-adapter-class="adapter_sticky_twitterized"
+        data-adapter-layer-json='{}'>
+      Alle tweets</li>
+  </ul>
+  <h2>Laatste tweets</h2>
+  <div id="latest-tweets">
+    <ul>
+      {% for tweet in view.tweets %}
+      <li class="workspace-acceptable file sticky-browser-item"
+          data-name="{{ tweet.tweet }}"
+          data-adapter-class="adapter_sticky_twitterized"
+          data-adapter-layer-json='{"id":{{ tweet.id }}}'>
+        {{ tweet.tweet }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "lizard_map/wms.html" %}
+{% load workspaces %}
+
+{% block subtitle %} Shape {% endblock %}
+
+{% block sidebar %}
+<div class="sidebarbox sidebarbox-stretched">
+  <h2>
+  {% firstof view.parent_category.name 'Kaartlagen' %}
+  </h2>
+  <ul id="area-pane"
+      class="automatic-tree filetree pane">
+    {% if view.shapes_tree %}
+      {% with "lizard_shape/tree_snippet_shapes.html" as tree_template %}
+        {% with view.shapes_tree as tree_items %}
+          {% include tree_template %}
+        {% endwith %}
+      {% endwith %}
+    {% else %}
+      <li>Geen kaartlagen beschikbaar.</li>
+    {% endif %}
+  </ul>
+</div>
+
+{% endblock %}

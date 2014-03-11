@@ -1,0 +1,20 @@
+{% if tree.is_leaf %}
+  {% if tree.option.url %}
+      <a href="{{ tree.option.url }}">{{ tree.option.description }}</a>
+  {% elif tree.option.workspace_acceptable %}
+      {{ tree.option.workspace_acceptable.to_html }}
+  {% else %}
+      {{ tree.option.description }}
+  {% endif %}
+{% else %}
+{% if tree.description %}{{ tree.description }}{% endif %}
+  <ul>
+    {% for newtree in tree.children %}
+    <li>
+      {% with newtree as tree %}
+      {% include template %}
+      {% endwith %}
+    </li>
+    {% endfor %}
+  </ul>
+{% endif %}

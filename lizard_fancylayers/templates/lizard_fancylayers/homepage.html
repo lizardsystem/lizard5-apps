@@ -1,0 +1,44 @@
+{# Show all available jdbc sources as apps. #}
+{% extends "lizard_map/wms.html" %}
+{% load workspaces %}
+
+{% block subtitle %} Apps overview {% endblock %}
+
+{% block sidebar %}
+<div id="iconbox" class="sidebarbox sidebarbox-stretched iconlist">
+<h2>Gemaakte keuzes</h2>
+<ul>
+{% for criterion in view.forgettable_criteria %}
+<li>{{ criterion.description }}: {{ criterion.value }} (<a href="{{ criterion.url }}">verwijder</a>)</li>
+{% empty %}
+<li>Nog geen keuzes gemaakt.</li>
+{% endfor %}
+</ul>
+{% for criterion in view.visible_criteria %}
+{% if criterion.options.is_option_list %}
+  <h2>{{ criterion.criterion.description }}</h2>
+  <ul>
+    {% for option in criterion.options.iter_options %}
+    <li>
+{% if option.url %}
+      <a href="{{ option.url }}">{{ option.description }}</a>
+{% elif option.workspace_acceptable %}
+      {{ option.workspace_acceptable.to_html }}
+{% else %}
+      {{ option.description }}
+{% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+{% elif criterion.options.is_option_tree %}
+  <h2>{{ criterion.criterion.description }}</h2>
+
+{% with "lizard_fancylayers/tree_snippet.html" as template %}
+{% with criterion.options as tree %}
+{% include template %}
+{% endwith %}
+{% endwith %}
+{% endif %}
+{% endfor %}
+</div>
+{% endblock %}

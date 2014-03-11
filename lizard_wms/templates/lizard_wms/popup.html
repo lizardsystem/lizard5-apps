@@ -1,0 +1,28 @@
+{% load workspaces %}
+{% load i18n %}
+{% load utility %}
+{% if feature_info %}
+  <table class="table table-striped">
+    <tbody>
+      {% for info in feature_info %}
+        {% if info.label_on_separate_line %}
+          <tr>
+            <td colspan="2"><strong>{{ info.label }}<strong></td>
+          </tr>
+          <tr>
+            <td colspan="2">{{ info.value }}</td>
+          </tr>
+        {% else %}  {# Label on the same line as the value #}
+          <tr>
+            <td>{{ info.label }}</td>
+            <td>{{ info.value }}</td>
+          </tr>
+        {% endif %}
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <div class="alert">
+    <h3>{% trans "No data" %}</h3>
+  </div>
+{% endif %}
